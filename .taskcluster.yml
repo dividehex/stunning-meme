@@ -1,0 +1,37 @@
+# The version is always required
+version: 0
+# Top level metadata is always required
+metadata:
+  name: "Stunning memes test"
+  description: "Just a test of taskcluster github"
+  owner: "{{ event.head.user.email }}" # the user who sent the pr/push e-mail will be inserted here
+  source: "{{ event.head.repo.url }}"  # the repo where the pr came from will be inserted here
+tasks:
+  # What kind of environment will you need (docker, windows, etc...)
+  - provisionerId: "{{ taskcluster.docker.provisionerId }}"
+  # Worker types correspond to particular machine types (aws size, etc...)
+  # worker types may be added by priveleged taskcluster users at tools.taskcluster.net/aws-provisioner
+    workerType: "{{ taskcluster.docker.workerType }}"
+    extra:
+      github:
+        # This must be set in order access GitHub info from inside your environment
+        env: true
+        # Events that will trigger this task
+        events:
+          - pull_request.opened
+          - pull_request.synchronize
+          - pull_request.reopened
+          - push
+    payload:
+      maxRunTime: 3600                          # Job timeout, in seconds
+      image: "ubuntu:13.10"                     # Our docker container (if using docker)
+      command:                                  # A command to run, list entries are arguments
+        - "/bin/bash"
+        - "-c"
+        - "echo \"hello World\" && sleep 300 && echo \"goodbye world\""
+    # Each task also requires explicit metadata
+    metadata:
+      name: "Stunning memes task"
+      description: "Just a test"
+      owner: "{{ event.head.user.email }}"
+      source: "{{ event.head.repo.url }}"
