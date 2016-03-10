@@ -32,6 +32,6 @@ tasks:
     # Each task also requires explicit metadata
     metadata:
       name: "Stunning memes task"
-      description: "Just a test"
+      description: "Just a test2"
       owner: "{{ event.head.user.email }}"
       source: "{{ event.head.repo.url }}"
