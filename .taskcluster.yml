@@ -23,7 +23,7 @@ tasks:
           - pull_request.reopened
           - push
         branches:
-          - master
+          - foobar
     payload:
       maxRunTime: 3600                          # Job timeout, in seconds
       image: "ubuntu:13.10"                     # Our docker container (if using docker)
